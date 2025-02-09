@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronomètre d'Étude</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #timer {
+            font-size: 2em;
+            margin: 20px;
+        }
+        #quote {
+            font-size: 1.2em;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1em;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chronomètre d'Étude</h1>
+    <div id="timer">00:00:00</div>
+    <button onclick="startTimer()">Démarrer</button>
+    <button onclick="pauseTimer()">Pause</button>
+    <button onclick="resetTimer()">Réinitialiser</button>
+    <div id="quote">"Le succès, c'est tomber sept fois, se relever huit."</div>
+
+    <script>
+        let timer;
+        let seconds = 0;
+        let isPaused = false;
+        const quotes = [
+            "Travaille dur en silence, laisse ton succès faire du bruit.",
+            "L'échec est la clé du succès, chaque erreur nous apprend quelque chose.",
+            "Rêve grand, commence petit, agis maintenant.",
+            "La discipline est le pont entre les objectifs et les réalisations."
+        ];
+
+        function updateTimer() {
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds % 3600) / 60);
+            let secs = seconds % 60;
+            document.getElementById('timer').textContent =
+                String(hrs).padStart(2, '0') + ':' +
+                String(mins).padStart(2, '0') + ':' +
+                String(secs).padStart(2, '0');
+        }
+
+        function startTimer() {
+            if (!timer) {
+                timer = setInterval(() => {
+                    if (!isPaused) {
+                        seconds++;
+                        updateTimer();
+                        if (seconds % 3600 === 0) {
+                            showMotivationalQuote();
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function pauseTimer() {
+            isPaused = !isPaused;
+        }
+
+        function resetTimer() {
+            stopTimer();
+            seconds = 0;
+            updateTimer();
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            timer = null;
+        }
+
+        function showMotivationalQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote').textContent = quotes[randomIndex];
+        }
+    </script>
+</body>
+</html>
